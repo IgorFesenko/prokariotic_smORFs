@@ -3,14 +3,16 @@
 
 # Run SibeliaZ
 
-mkdir erwinia_blocks
+rep=/panfs/pan1/small_orf/synteny
 
-sibeliaz -n -k 15 -o erwinia_blocks ./Erwinia/*.fna > log_sibeliaz_erwinia
+while read -r line; do
 
-mkdir cronobacter_blocks
+    echo "Looking for sinthenic blocks in $line"
+    mkdir $rep/$line
+    sibeliaz -n -k 15 -o $rep/$line /panfs/pan1/small_orf/genomes/$line/$line.combined.fa
+    echo "Done"
+    echo "================"
 
-sibeliaz -n -k 15 -o cronobacter_blocks ./Cronobacter/*.fna > log_sibeliaz_cronobacter
 
-mkdir yersinia_blocks
-
-sibeliaz -n -k 15 -o yersinia_blocks ./Yersinia/*.fna > log_sibeliaz_yersinia
+done < list_genus2.txt
+#sibeliaz -n -k 15 -o cronobacter_blocks ./Cronobacter/*.fna > log_sibeliaz_cronobacter

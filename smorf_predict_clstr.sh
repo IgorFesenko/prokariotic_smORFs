@@ -1,7 +1,7 @@
 #!/bin/bash
 # -*- coding: utf-8 -*-
 
-# Run orfipy and cluster by cd-hit
+# Run orfipy and predit smORFs
 
 cd $1
 echo $PWD

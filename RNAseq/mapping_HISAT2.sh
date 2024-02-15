@@ -53,8 +53,6 @@ done < $1
 
 echo "Reads were mapped"
 
-
-# Получаем статистику по bam файлам с помощью samtools
 echo "Start MILTIQC"
 while read -r line; do
     mkdir $line/bam_stats
@@ -66,7 +64,7 @@ while read -r line; do
         echo "----------"
     done
     multiqc $PWD/$line/bam_stats -o $PWD/$line/bam_stats
-    mv $PWD/$line/bam_stats/*.html /home/fesenkoi2/MultiQC_"$line"_mapping_stats.html
+    
 done < $1
 
 echo "Script completed"

@@ -1,6 +1,9 @@
 #!/usr/bin/python
 # -*- coding: utf-8 -*-
 
+#### SCRIPTS EXTRACT COORDINATES OF INTERGENIC SEQUENCES FROM GFF FILE ####
+# --file - path to gff file
+# --dir path to output directory
 
 import sys
 import getopt

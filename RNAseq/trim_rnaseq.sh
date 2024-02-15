@@ -8,7 +8,8 @@ module load trimmomatic
 
 ## TRIMMOMATIC ##
 
-rnaseq='/data/fesenkoi2/RNAseq'
+rnaseq='path-to-folder'
+# $1 - path to folder with data for species
 
 echo "Start Trimming"
 

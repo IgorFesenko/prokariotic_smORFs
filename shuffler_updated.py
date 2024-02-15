@@ -8,12 +8,13 @@ import argparse
 from ushuffle import shuffle, Shuffler
 import random
 
+### SCRIPT SHUFFLES NUCLEOTIDE SEQUENCES ###
 
 if __name__ == "__main__":
        
-    parser = argparse.ArgumentParser(description='Shuffled 20 percent sequnces from the fasta file wit k=3')
+    parser = argparse.ArgumentParser(description='Shuffling 20 percent sequnces from the fasta file with k=3')
     
-    parser.add_argument("--file", type=str, help='Path to dir with results')
+    parser.add_argument("--file", type=str, help='Path to file with sequences in fasta')
     parser.add_argument("--dir", type=str, help='Path to output dir')
     args = parser.parse_args()
     

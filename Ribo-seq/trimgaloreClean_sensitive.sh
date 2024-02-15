@@ -11,7 +11,7 @@ module load multiqc
 
 ######### TRIMMING AND CLEAN READS FROM RIBO-seq data ###############
 
-riboseq='/data/fesenkoi2/RIBOseq'
+riboseq='RIBOseq'
 
 echo "Start TRIMMING at $(date "+%Y-%m-%d %H:%M:%S")"
 

@@ -13,7 +13,7 @@ module load multiqc
 # $1 - list of species for download
 # $2 - the number of threads
 
-riboseq='/data/fesenkoi2/RIBOseq'
+riboseq='RIBOseq'
 
 echo "Script started at $(date "+%Y-%m-%d %H:%M:%S")"
 
@@ -61,7 +61,6 @@ done < $1
 
 echo "Reads were mapped to $line genome at $(date "+%Y-%m-%d %H:%M:%S")"
 
-# Получаем статистику по bam файлам с помощью samtools
 ### MULTIQC #####
 echo "Start MILTIQC at $(date "+%Y-%m-%d %H:%M:%S") for $line data"
 while read -r line; do
@@ -81,7 +80,7 @@ while read -r line; do
         echo "----------"
     done
     multiqc $riboseq/$line/bam_stats_bowtie -o $riboseq/$line/bam_stats_bowtie
-    cp $riboseq/$line/bam_stats_bowtie/*.html /home/fesenkoi2/MultiQC_"$line"_bowtie2mapping_stats.html
+    
 done < $1
 
 echo "Script finished at $(date "+%Y-%m-%d %H:%M:%S")"

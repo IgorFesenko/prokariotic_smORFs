@@ -1,11 +1,10 @@
-library(edgeR)  # загрузка библиотеки
+library(edgeR) 
 rm(list=ls())
-setwd('/Users/fesenkoi2/Library/CloudStorage/OneDrive-Personal/SmORFs/raw_tables/DE_RNAseq')
-
-#https://darwinawardwinner.github.io/resume/examples/Salomon/CD4/reports/RNA-seq/salmon_hg38.analysisSet_ensembl.85-exploration.html
+setwd('DE_RNAseq')
 
 
-# загружаем данные которые сохранили в прошлый раз
+
+
 counts <-  readRDS('countsSalmonella.Rdata')
 head(counts)
 
@@ -15,7 +14,6 @@ head(counts)
 # genes without expression
 table(apply(counts,1,mean) > 0)
 
-#задаем метаданные для образцов
 meta <-  data.frame(conditions=c("AceticAcid", "AceticAcid", "AceticAcid", 
                                  "BileSalt", "BileSalt", "BileSalt",
                                  "Control", "Control","Control",
@@ -32,11 +30,11 @@ rownames(meta) = colnames(counts)
 table(meta)
 meta
 
-## Загружаем данные в edgeR и нормализуем
-edger <-  DGEList(counts = counts) # создаем объект edgeR хранящий каунты
 
-#фильтруем по покрытию
-#keep <- filterByExpr(edger)
+edger <-  DGEList(counts = counts) 
+
+
+keep <- filterByExpr(edger)
 keep <- rowSums(cpm(edger) > 0.5) >= 3
 #fc10 = fc[apply(fc,1,mean) >= 10,]
 table(keep)

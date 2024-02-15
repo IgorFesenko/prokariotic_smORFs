@@ -2,13 +2,13 @@
 
 
 rm(list=ls())
-setwd('/Users/fesenkoi2/Library/CloudStorage/OneDrive-Personal/SmORFs/raw_tables/DE_RNAseq')
+setwd('DE_RNAseq')
 
 
 library(edgeR) 
 
-# загружаем данные которые сохранили в прошлый раз
-counts <-  readRDS('countsEscherichia09.Rdata')
+# load data
+counts <-  readRDS('countsEscherichia.Rdata')
 head(counts)
 
 
@@ -17,7 +17,7 @@ head(counts)
 # genes without expression
 table(apply(counts,1,mean) == 0)
 
-#задаем метаданные для образцов
+#metadata
 meta <-  data.frame(conditions=c("AceticAcid", "AceticAcid", "AceticAcid", 
                                  "BileSalt", "BileSalt", "BileSalt",
                                  "Control", "Control","Control",
@@ -34,10 +34,10 @@ rownames(meta) = colnames(counts)
 table(meta)
 meta
 
-## Загружаем данные в edgeR и нормализуем
-edger <-  DGEList(counts = counts) # создаем объект edgeR хранящий каунты
+## load data in EdgeR
+edger <-  DGEList(counts = counts)
 
-#фильтруем по покрытию
+#filtering by expression
 #keep <- filterByExpr(edger)
 keep <- rowSums(cpm(edger) > 0.5) >= 3
 #fc10 = fc[apply(fc,1,mean) >= 10,]
@@ -48,25 +48,22 @@ edger <- edger[keep, , keep.lib.sizes=FALSE]
 #table(apply(edger,1,mean) >= 10) 
 
 
-# нормируем методом TMM
+# Normalisaton
 edger = calcNormFactors(edger,method='TMM')
 edger$samples
 
-#cpm = cpm(edger) # посчитаем cpm с учетом TMM нормировки
-#write.csv(cpm, file = "cpm_values_test.csv", row.names = TRUE) #выводим таблицу
+cpm = cpm(edger) #calculating CPM
+write.csv(cpm, file = "cpm_values.csv", row.names = TRUE)
 
-#создаем матрицу дизайна
-
+#create design matrix
 design <- model.matrix(~0+conditions, data = meta)
 design
 
-# Сохраняем промежуточные данные
+# Save data
 #saveRDS(design,'designEscherichia.Rdata') 
 
 
 # biological coefficient of variation (BCV)
-# рисуем зависимость биологической вариабельности от средней экспрессии, 
-#немного падает с ростом экпсрессии
 edger <-  estimateDisp(edger,design)
 plotBCV(edger)
 edger$common.dispersion
@@ -99,7 +96,7 @@ for (cond in condit) {
   print(summary(decideTests(tr)))
   # calculate FDR
   #tr$table$FDR <- p.adjust(tr$table$PValue, method="BH")
-  name <- paste("Escherichia_DEFCcov09_", cond, ".csv",sep = "")
+  name <- paste("Escherichia_DE", cond, ".csv",sep = "")
   write.csv(tr_filtered$table, file = name, row.names = TRUE)
   
 }

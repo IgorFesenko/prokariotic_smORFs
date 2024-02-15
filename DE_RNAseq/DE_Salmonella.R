@@ -34,32 +34,21 @@ meta
 edger <-  DGEList(counts = counts) 
 
 
-keep <- filterByExpr(edger)
+
 keep <- rowSums(cpm(edger) > 0.5) >= 3
-#fc10 = fc[apply(fc,1,mean) >= 10,]
 table(keep)
 edger <- edger[keep, , keep.lib.sizes=FALSE]
 
-#fc10 = fc[apply(fc,1,mean) >= 10,]
-#table(apply(edger,1,mean) >= 10) 
-
-
-# нормируем методом TMM
 edger = calcNormFactors(edger,method='TMM')
 edger$samples
-
-#создаем матрицу дизайна
 
 design <- model.matrix(~0+conditions, data = meta)
 design
 
-# Сохраняем промежуточные данные
 saveRDS(design,'designSalmonella.Rdata') 
 
 
 # biological coefficient of variation (BCV)
-# рисуем зависимость биологической вариабельности от средней экспрессии, 
-#немного падает с ростом экпсрессии
 edger <-  estimateDisp(edger,design)
 plotBCV(edger)
 edger$common.dispersion
@@ -109,7 +98,7 @@ for (cond in condit) {
   print(summary(decideTests(tr)))
   # calculate FDR
   #tr$table$FDR <- p.adjust(tr$table$PValue, method="BH")
-  name <- paste("Salmonella_DEtestFC_", cond, ".csv",sep = "")
+  name <- paste("Salmonella_DE", cond, ".csv",sep = "")
   write.csv(tr_filtered$table, file = name, row.names = TRUE)
   
 }

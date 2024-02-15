@@ -1,18 +1,18 @@
 #!/bin/bash
 # -*- coding: utf-8 -*-
 
-# Extract IGS from gff files
+### Extract IGs from a batch of gff files
 
-INDIR="/panfs/pan1/small_orf/genomes"
+INDIR="<path-to-folder_with-gff>"
 
-OUTDIR="/panfs/pan1/small_orf/intergenic"
-
+OUTDIR="path-to-output-directory"
+# $1 - list of species
 
 while read -r line; do
 
     echo "Extract intergenic regions for $line"
-    #mkdir $OUTDIR/$line
-    #python3 ./igs_prediction.py --file $INDIR/$line/"$line.combined.gff" --dir $OUTDIR/$line/$line
+    mkdir $OUTDIR/$line
+    python3 ./igs_prediction.py --file $INDIR/$line/"$line.combined.gff" --dir $OUTDIR/$line/$line
     echo "Getting fasta..."
     bedtools getfasta -name+ -fi $INDIR/$line/"$line".combined.fa -bed $OUTDIR/$line/"$line"_intergenic.filtered.gff -fo $OUTDIR/$line/$line.intergenic.fa
 

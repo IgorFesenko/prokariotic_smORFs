@@ -1,1 +1,1 @@
-The RF modrl for prediction of potentially coding ismORFs
+The RF model that predicts of potentially coding ismORFs based on dN, dS, Kd, dN/dS
